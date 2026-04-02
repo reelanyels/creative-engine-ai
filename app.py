@@ -5,7 +5,11 @@ from langchain_google_genai import ChatGoogleGenerativeAI
 api_key = st.secrets["GEMINI_API_KEY"]
 
 # 2. Inicializar el modelo (Usando el puente LangChain para evitar el NotFound)
-llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
+llm = ChatGoogleGenerativeAI(
+    model="gemini-1.5-flash", 
+    google_api_key=api_key,
+    version="v1"  # ESTO es lo que quita el error de 'v1beta not found'
+)
 
 st.title("THE CREATIVE ENGINE")
 st.subheader("Generador de Conceptos para Productores")
