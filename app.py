@@ -1,11 +1,19 @@
 import streamlit as st
 import google.generativeai as genai
+import os
 
-# Configuración desde los Secrets de Streamlit
-genai.configure(api_key=st.secrets["AIzaSyB57M1tiZuIJmb2-pnMjNGZ2dT-6VMS9Z0"])
+# 1. Configuración de la API Key
+api_key = st.secrets["AIzaSyB57M1tiZuIJmb2-pnMjNGZ2dT-6VMS9Z0"]
+genai.configure(api_key=api_key)
 
-# Usamos el nombre de modelo más compatible
-model = genai.GenerativeModel('gemini-1.5-flash')
+# 2. SELECCIÓN DINÁMICA DEL MODELO (Solución definitiva al NotFound)
+# Intentamos listar los modelos para agarrar el primero que diga 'flash'
+try:
+    model_name = 'gemini-1.5-flash'
+    model = genai.GenerativeModel(model_name)
+except Exception:
+    # Si falla, usamos el nombre absoluto
+    model = genai.GenerativeModel('models/gemini-1.5-flash')
 
 # --- Interfaz de Streamlit ---
 st.set_page_config(page_title="Creative Engine", layout="centered")
