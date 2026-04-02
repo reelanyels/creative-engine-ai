@@ -7,7 +7,7 @@ load_dotenv()
 
 # Configurar Gemini
 genai.configure(api_key=os.getenv("AIzaSyB57M1tiZuIJmb2-pnMjNGZ2dT-6VMS9Z0"))
-model = genai.GenerativeModel('gemini-1.5-flash-latest')
+model = genai.GenerativeModel('models/gemini-1.5-flash')
 
 # --- Interfaz de Streamlit ---
 st.set_page_config(page_title="Creative Engine", layout="centered")
