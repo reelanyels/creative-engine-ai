@@ -1,64 +1,39 @@
 import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-# 1. Configuración de la API Key (Igual que antes)
+# 1. Configuración de la API Key desde los Secrets de Streamlit
 api_key = st.secrets["GEMINI_API_KEY"]
 
-# 2. Inicializar el modelo con LangChain (Más estable en la nube)
+# 2. Inicializar el modelo (Usando el puente LangChain para evitar el NotFound)
 llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
 
-# ... (Tu código de interfaz de Streamlit) ...
+st.title("THE CREATIVE ENGINE")
+st.subheader("Generador de Conceptos para Productores")
 
-if st.button("GENERAR", key="boton_generar_principal"):
-    # Tu prompt de antes
-    prompt = f"Actúa como un director creativo de música electrónica..."
-    
-    with st.spinner("Procesando señal..."):
-        # Nueva forma de llamar al modelo
-        response = llm.invoke(prompt)
-        st.write("___")
-        st.markdown(response.content)
+# 3. Inputs de la Interfaz
+concepto = st.text_input("Escribe una palabra o sentimiento (ej: Silencio, Caos, Berlín):")
+genero = st.selectbox("Elige el estilo musical:", ["Melodic House", "Vocal House", "Deep House", "Techno"])
 
-# --- Interfaz de Streamlit ---
-st.set_page_config(page_title="Creative Engine", layout="centered")
-
-# Estética minimalista (inspirada en VEIL)
-st.markdown("""
-    <style>
-    .stApp { background-color: #000000; color: #FFFFFF; }
-    input, .stSelectbox, .stSlider { border: 1px solid #333 !important; }
-    .stButton>button { 
-        width: 100%; border-radius: 0px; border: 1px solid white; 
-        background: transparent; color: white; height: 3em;
-    }
-    .stButton>button:hover { background: white; color: black; }
-    </style>
-    """, unsafe_allow_html=True)
-
-st.title("🔲 THE CREATIVE ENGINE")
-st.caption("AI Curated Concepts for Electronic Music")
-
-col1, col2 = st.columns(2)
-with col1:
-    genre = st.selectbox("GÉNERO", ["Melodic House", "Vocal House", "Deep Tech"])
-    energy = st.slider("MOOD / VIBE", 1, 10, 5)
-with col2:
-    concept = st.text_input("CONCEPTO BASE", placeholder="Ej: Midnight")
-
-if st.button("GENERAR"):
-    # Prompt optimizado para tu estilo
-    prompt = f"""
-    Actúa como un director creativo de música electrónica (estilo RÜFÜS DU SOL, Elderbrook).
-    Genera un concepto para un track de {genre} basado en '{concept}' con energía {energy}/10.
-    
-    Responde estrictamente en este formato:
-    1. TÍTULOS: (3 opciones cortas en inglés)
-    2. LYRIC HOOK: (4 líneas de letra abstracta y melancólica)
-    3. VISUAL: (Una descripción para una portada minimalista en blanco y negro)
-    4. PALETTE: (3 códigos HEX que contrasten)
-    """
-    
-    with st.spinner("Procesando señal..."):
-        response = model.generate_content(prompt)
-        st.write("___")
-        st.markdown(response.text)
+# 4. Lógica de Generación
+if st.button("GENERAR", key="boton_unico_creative"):
+    if concepto:
+        with st.spinner("Procesando señal creativa..."):
+            # Creamos el prompt para la IA
+            prompt = f"""
+            Actúa como un director creativo de música electrónica. 
+            Basado en el concepto '{concepto}', genera para un track de {genero}:
+            1. Un título sugerido.
+            2. Una breve descripción de la atmósfera (vibe).
+            3. Una estructura de letra o frases vocales cortas (estilo Rufus du Sol/Elderbrook).
+            4. Una paleta de colores en HEX para el arte de portada.
+            """
+            
+            try:
+                # AQUÍ USAMOS 'llm' EN LUGAR DE 'model'
+                response = llm.invoke(prompt)
+                st.write("---")
+                st.markdown(response.content)
+            except Exception as e:
+                st.error(f"Hubo un error de conexión: {e}")
+    else:
+        st.warning("Por favor, introduce un concepto para empezar.")
