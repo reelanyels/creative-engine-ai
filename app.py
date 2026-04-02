@@ -1,5 +1,7 @@
+# UPDATE 02-04-2026: FORZANDO V1 PRODUCCION
 import streamlit as st
 from langchain_google_genai import ChatGoogleGenerativeAI
+# ... (asegúrate de que abajo diga version="v1")
 
 # 1. Configuración de la API Key desde los Secrets de Streamlit
 api_key = st.secrets["GEMINI_API_KEY"]
