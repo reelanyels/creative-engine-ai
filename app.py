@@ -1,13 +1,23 @@
 import streamlit as st
-import google.generativeai as genai
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-# Configuración
+# 1. Configuración de la API Key (Igual que antes)
 api_key = st.secrets["GEMINI_API_KEY"]
-genai.configure(api_key=api_key)
 
-# SOLUCIÓN: Forzar el nombre del modelo con el prefijo 'models/'
-# Esto le dice a la librería exactamente dónde buscar en el servidor
-model = genai.GenerativeModel(model_name='models/gemini-1.5-flash')
+# 2. Inicializar el modelo con LangChain (Más estable en la nube)
+llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
+
+# ... (Tu código de interfaz de Streamlit) ...
+
+if st.button("GENERAR"):
+    # Tu prompt de antes
+    prompt = f"Actúa como un director creativo de música electrónica..."
+    
+    with st.spinner("Procesando señal..."):
+        # Nueva forma de llamar al modelo
+        response = llm.invoke(prompt)
+        st.write("___")
+        st.markdown(response.content)
 
 # --- Interfaz de Streamlit ---
 st.set_page_config(page_title="Creative Engine", layout="centered")
