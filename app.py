@@ -9,7 +9,7 @@ llm = ChatGoogleGenerativeAI(model="gemini-1.5-flash", google_api_key=api_key)
 
 # ... (Tu código de interfaz de Streamlit) ...
 
-if st.button("GENERAR"):
+if st.button("GENERAR", key="boton_generar_principal"):
     # Tu prompt de antes
     prompt = f"Actúa como un director creativo de música electrónica..."
     
