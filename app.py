@@ -1,13 +1,11 @@
 import streamlit as st
 import google.generativeai as genai
-import os
-from dotenv import load_dotenv
 
-load_dotenv()
+# Configuración desde los Secrets de Streamlit
+genai.configure(api_key=st.secrets["GEMINI_API_KEY"])
 
-# Configurar Gemini
-genai.configure(api_key=os.getenv("AIzaSyB57M1tiZuIJmb2-pnMjNGZ2dT-6VMS9Z0"))
-model = genai.GenerativeModel('models/gemini-1.5-flash')
+# Usamos el nombre de modelo más compatible
+model = genai.GenerativeModel('gemini-1.5-flash')
 
 # --- Interfaz de Streamlit ---
 st.set_page_config(page_title="Creative Engine", layout="centered")
