@@ -3,7 +3,8 @@ import google.generativeai as genai
 import os
 
 # 1. Configuración de la API Key
-api_key = st.secrets["AIzaSyB57M1tiZuIJmb2-pnMjNGZ2dT-6VMS9Z0"]
+# NO pongas la clave real aquí, pon el NOMBRE de la variable
+api_key = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=api_key)
 
 # 2. SELECCIÓN DINÁMICA DEL MODELO (Solución definitiva al NotFound)
