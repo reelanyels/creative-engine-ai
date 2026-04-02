@@ -17,8 +17,7 @@ if st.button("GENERAR", key="boton_final"):
     if concepto:
         with st.spinner("Procesando señal creativa..."):
             # FORZAMOS EL MODELO SIN 'models/' Y SIN VERSION BETA
-            model = genai.GenerativeModel('gemini-1.5-flash')
-            
+            model = genai.GenerativeModel('gemini-1.5-pro')
             prompt = f"""
             Actúa como un director creativo de música electrónica. 
             Basado en el concepto '{concepto}', genera para un track de {genero}:
